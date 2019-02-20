@@ -8,7 +8,7 @@ const FILTERS = [`ALL`, `OVERDUE`, `TODAY`, `FAVORITES`, `REPEATING`, `TAGS`, `A
 const createFilterElement = (filterName) => {
 
   const MAX_CARDS = 10;
-  const FILTER_COUNT = Math.floor (Math.random ( ) * (MAX_CARDS + 1));
+  const FILTER_COUNT = Math.floor(Math.random() * (MAX_CARDS + 1));
   const filterNameLow = filterName.toLowerCase();
   const TEMPLATE_FILTER_TEXT = `
   <input type="radio"
@@ -339,25 +339,25 @@ const onFilterClick = (evt) => {
   const FILTER_COUNT_OF_TASKS = document.querySelector(`.${evt.currentTarget.id}-count`).textContent;
 
   for (let i = 0; i < FILTER_COUNT_OF_TASKS; i++) {
-    createCardElement ();
+    createCardElement();
   }
 };
 
 const addHandlerOnFilters = () => {
 
-  const FILTERS = document.querySelectorAll(`.filter__input`);
-  for (let i = 0; i < FILTERS.length; i++) {
-    FILTERS[i].addEventListener(`click`, onFilterClick);
+  const FILTER_ELEMENTS = document.querySelectorAll(`.filter__input`);
+  for (let i = 0; i < FILTER_ELEMENTS.length; i++) {
+    FILTER_ELEMENTS[i].addEventListener(`click`, onFilterClick);
   }
 
 };
 
 for (let i = 0; i < START_QUANTITY_CARDS; i++) {
-  createCardElement ();
+  createCardElement();
 }
 
 for (const element of FILTERS) {
-  createFilterElement (element);
+  createFilterElement(element);
 }
 
 addHandlerOnFilters();
