@@ -1,36 +1,34 @@
 'use strict';
 
-const BOARD_TASKS = document.querySelector(`.board__tasks`);
-const MAIN_FILTER = document.querySelector(`.main__filter`);
 const START_QUANTITY_CARDS = 7;
-const FILTERS = [`ALL`, `OVERDUE`, `TODAY`, `FAVORITES`, `REPEATING`, `TAGS`, `ARCHIVE`];
+const MAX_CARDS = 10;
+
+const board_tasks = document.querySelector(`.board__tasks`);
+const mainFilter = document.querySelector(`.main__filter`);
+const filters = [`ALL`, `OVERDUE`, `TODAY`, `FAVORITES`, `REPEATING`, `TAGS`, `ARCHIVE`];
 
 const createFilterElement = (filterName) => {
 
-  const MAX_CARDS = 10;
-  const FILTER_COUNT = Math.floor(Math.random() * (MAX_CARDS + 1));
+  const filterCount = Math.floor(Math.random() * (MAX_CARDS + 1));
   const filterNameLow = filterName.toLowerCase();
-  const TEMPLATE_FILTER_TEXT = `
+  const templateFilterText = `
   <input type="radio"
     id="filter__${filterNameLow}"
     class="filter__input visually-hidden"
     name="filter"
     checked
-    ${(FILTER_COUNT === 0) ? `disabled` : ``}
+    ${(filterCount === 0) ? `disabled` : ``}
   />
   <label for="filter__${filterNameLow}" class="filter__label">
-    ${filterName} <span class="filter__${filterNameLow}-count">${FILTER_COUNT}</span></label
+    ${filterName} <span class="filter__${filterNameLow}-count">${filterCount}</span></label
   >`;
 
-  const filterElement = document.createElement(`div`);
-  filterElement.innerHTML = TEMPLATE_FILTER_TEXT;
-  MAIN_FILTER.appendChild(filterElement);
-
+  mainFilter.insertAdjacentHTML(`beforeend`, templateFilterText);
 };
 
 const createCardElement = () => {
 
-  const TEMPLATE_CARD_TEXT = `<article class="card card--pink card--repeat">
+  const templateCardText = `<article class="card card--pink card--repeat">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -323,41 +321,34 @@ const createCardElement = () => {
   </form>
   </article>`;
 
-  const cardElement = document.createElement(`article`);
-  cardElement.innerHTML = TEMPLATE_CARD_TEXT;
-  BOARD_TASKS.appendChild(cardElement);
-
+  board_tasks.insertAdjacentHTML(`afterbegin`, templateCardText);
 };
 
 const onFilterClick = (evt) => {
-  const BOARD_TASKS_CHILDREN = BOARD_TASKS.children;
+  board_tasks.innerHTML=``;
+  const filterCountOfTasks = document.querySelector(`.${evt.currentTarget.id}-count`).textContent;
+  createCards(filterCountOfTasks);
+};
 
-  for (let i = BOARD_TASKS_CHILDREN.length - 1; i >= 0; i--) {
-    BOARD_TASKS.removeChild(BOARD_TASKS_CHILDREN[i]);
+const addHandlerOnFilters = () => {
+  const filterElements = document.querySelectorAll(`.filter__input`);
+  for (let i = 0; i < filterElements.length; i++) {
+    filterElements[i].addEventListener(`click`, onFilterClick);
   }
+};
 
-  const FILTER_COUNT_OF_TASKS = document.querySelector(`.${evt.currentTarget.id}-count`).textContent;
-
-  for (let i = 0; i < FILTER_COUNT_OF_TASKS; i++) {
+const createCards = (number) => {
+  for (let i = 0; i < number; i++) {
     createCardElement();
   }
 };
 
-const addHandlerOnFilters = () => {
-
-  const FILTER_ELEMENTS = document.querySelectorAll(`.filter__input`);
-  for (let i = 0; i < FILTER_ELEMENTS.length; i++) {
-    FILTER_ELEMENTS[i].addEventListener(`click`, onFilterClick);
+const createFilters = () => {
+  for (const element of filters) {
+    createFilterElement(element);
   }
-
 };
 
-for (let i = 0; i < START_QUANTITY_CARDS; i++) {
-  createCardElement();
-}
-
-for (const element of FILTERS) {
-  createFilterElement(element);
-}
-
+createCards(START_QUANTITY_CARDS);
+createFilters();
 addHandlerOnFilters();
