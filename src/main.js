@@ -3,7 +3,7 @@
 const START_QUANTITY_CARDS = 7;
 const MAX_CARDS = 10;
 
-const board_tasks = document.querySelector(`.board__tasks`);
+const boardTasks = document.querySelector(`.board__tasks`);
 const mainFilter = document.querySelector(`.main__filter`);
 const filters = [`ALL`, `OVERDUE`, `TODAY`, `FAVORITES`, `REPEATING`, `TAGS`, `ARCHIVE`];
 
@@ -321,11 +321,11 @@ const createCardElement = () => {
   </form>
   </article>`;
 
-  board_tasks.insertAdjacentHTML(`afterbegin`, templateCardText);
+  boardTasks.insertAdjacentHTML(`afterbegin`, templateCardText);
 };
 
 const onFilterClick = (evt) => {
-  board_tasks.innerHTML=``;
+  boardTasks.innerHTML = ``;
   const filterCountOfTasks = document.querySelector(`.${evt.currentTarget.id}-count`).textContent;
   createCards(filterCountOfTasks);
 };
