@@ -1,31 +1,8 @@
-import makeFilter from '../src/make-filter.js';
-import makeTask from '../src/make-task.js';
+//export default () =>
 
-const FILTERS = [`ALL`, `OVERDUE`, `TODAY`, `FAVORITES`, `REPEATING`, `TAGS`, `ARCHIVE`];
-const START_QUANTITY_TASKS = 7;
-const MAX_TASKS = 10;
+export default () => {
 
-/*const createFilterElement = (filterName) => {
-
-  const filterCount = Math.floor(Math.random() * (MAX_CARDS + 1));
-  const filterNameLow = filterName.toLowerCase();
-  const templateFilterText = `
-  <input type="radio"
-    id="filter__${filterNameLow}"
-    class="filter__input visually-hidden"
-    name="filter"
-    checked
-    ${(filterCount === 0) ? `disabled` : ``}
-  />
-  <label for="filter__${filterNameLow}" class="filter__label">
-    ${filterName} <span class="filter__${filterNameLow}-count">${filterCount}</span></label
-  >`;
-
-  mainFilter.insertAdjacentHTML(`beforeend`, templateFilterText);
-};*/
-
-/*const createCardElement = () => {
-
+  const boardTasks = document.querySelector(`.board__tasks`);
   const templateCardText = `<article class="card card--pink card--repeat">
   <form class="card__form" method="get">
     <div class="card__inner">
@@ -320,35 +297,4 @@ const MAX_TASKS = 10;
   </article>`;
 
   boardTasks.insertAdjacentHTML(`afterbegin`, templateCardText);
-};*/
-
-const onFilterClick = (evt) => {
-  boardTasks.innerHTML = ``;
-  const filterCountOfTasks = document.querySelector(`.${evt.currentTarget.id}-count`).textContent;
-  createCards(filterCountOfTasks);
 };
-
-const addHandlerOnFilters = () => {
-  const filterElements = document.querySelectorAll(`.filter__input`);
-  //for (let i = 0; i < filterElements.length; i++) {
-  for (const element of filterElements) {
-    filterElements[element].addEventListener(`click`, onFilterClick);
-  }
-};
-
-const createFilters = () => {
-  for (const element of FILTERS) {
-    let filterCount = Math.floor(Math.random() * (MAX_TASKS + 1));
-    makeFilter(element, filterCount, true);
-  }
-};
-
-const createTasks = (number) => {
-  for (let i = 0; i < number; i++) {
-    makeTask();
-  }
-};
-
-createFilters();
-createTasks(START_QUANTITY_TASKS);
-addHandlerOnFilters();
