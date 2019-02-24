@@ -1,7 +1,6 @@
-const mainFilter = document.querySelector(`.main__filter`);
-
 export default (name, count, checked = true) => {
 
+  const mainFilter = document.querySelector(`.main__filter`);
   const nameLow = name.toLowerCase();
   const templateFilterText = `
   <input type="radio"

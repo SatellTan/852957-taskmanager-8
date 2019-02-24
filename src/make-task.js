@@ -1,7 +1,6 @@
-const boardTasks = document.querySelector(`.board__tasks`);
-
 export default () => {
 
+  const boardTasks = document.querySelector(`.board__tasks`);
   const templateCardText = `<article class="card card--pink card--repeat">
   <form class="card__form" method="get">
     <div class="card__inner">
