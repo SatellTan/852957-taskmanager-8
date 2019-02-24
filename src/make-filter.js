@@ -1,5 +1,3 @@
-//export default (caption, count, checked = false) => `<input
-
 export default (name, count, checked = true) => {
 
   const mainFilter = document.querySelector(`.main__filter`);

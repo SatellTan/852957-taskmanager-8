@@ -1,5 +1,3 @@
-//export default () =>
-
 export default () => {
 
   const boardTasks = document.querySelector(`.board__tasks`);
