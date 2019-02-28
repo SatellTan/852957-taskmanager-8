@@ -7,6 +7,7 @@ const START_QUANTITY_TASKS = 7;
 const MAX_TASKS = 10;
 
 const boardTasks = document.querySelector(`.board__tasks`);
+let arrayTasks = [];
 
 const onFilterClick = (evt) => {
   boardTasks.innerHTML = ``;
@@ -30,7 +31,11 @@ const createFilters = () => {
 
 const createTasks = (number) => {
   for (let i = 0; i < number; i++) {
-    makeTask(generateData());
+    arrayTasks.push(generateData());
+  }
+
+  for (const element of arrayTasks) {
+    makeTask(generateData(element));
   }
 };
 

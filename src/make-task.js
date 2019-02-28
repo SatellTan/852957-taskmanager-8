@@ -1,24 +1,48 @@
 const boardTasks = document.querySelector(`.board__tasks`);
 
-/* const checkForRepeat = (task) => {
-  const {repeatingDays: {mo: moRepeat}} = task;
-};*/
-
-
 export default (task) => {
 
-  // isRepeat = checkForRepeat (task);
-  // console.log(Date(task.dueDate));
+  const monthOfTask = task.dueDate.toLocaleString(`en-us`, {month: `long`});
+  const dateOfTask = `${task.dueDate.getDate()} ${monthOfTask} ${task.dueDate.getFullYear()}`;
+  const timeOfTask = task.dueDate.toLocaleString(`en-US`, {hour12: true, hour: `2-digit`, minute: `2-digit`});
 
-  const templateCardText = `<article class="card card--edit card--${task.color} card--repeat">
+  // console.log(dateOfTask);
+  // console.log(task.dueDate.toLocaleTimeString('en-US'));
+  // console.log(task.dueDate.getDate() + " " + monthOfTask + " " + task.dueDate.getFullYear() + " " + task.dueDate);
+
+  const obj = task.repeatingDays;
+  const isRepeating = Object.keys(obj).some((key)=>obj[key]);
+
+  let tagsOfTask = ``;
+
+  for (const element of task.tags) {
+    tagsOfTask +=
+      `<span class="card__hashtag-inner">
+        <input
+          type="hidden"
+          name="hashtag"
+          value="repeat"
+        class="card__hashtag-hidden-input"
+        />
+        <button type="button" class="card__hashtag-name">
+          #${element}
+        </button>
+        <button type="button" class="card__hashtag-delete">
+          delete
+        </button>
+      </span>`;
+  }
+
+
+  const templateCardText = `<article class="card card--edit card--${task.color} ${isRepeating ? `card--repeat` : ``}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
                   <button type="button" class="card__btn card__btn--edit">
-                    edit
+                    ${task.isDone ? `` : `edit`}
                   </button>
                   <button type="button" class="card__btn card__btn--archive">
-                    archive
+                    ${task.isDone ? `archive` : ``}
                   </button>
                   <button
                     type="button"
@@ -50,7 +74,7 @@ ${task.title}</textarea
                   <div class="card__details">
                     <div class="card__dates">
                       <button class="card__date-deadline-toggle" type="button">
-                        date: <span class="card__date-status">yes</span>
+                        date: <span class="card__date-status">${dateOfTask === `` ? `no` : `yes`}</span>
                       </button>
 
                       <fieldset class="card__date-deadline">
@@ -60,7 +84,7 @@ ${task.title}</textarea
                             type="text"
                             placeholder="23 September"
                             name="date"
-                            value=${Date(task.dueDate)}
+                            value=${dateOfTask}
                           />
                         </label>
                         <label class="card__input-deadline-wrap">
@@ -69,13 +93,13 @@ ${task.title}</textarea
                             type="text"
                             placeholder="11:15 PM"
                             name="time"
-                            value="11:15 PM"
+                            value=${timeOfTask}
                           />
                         </label>
                       </fieldset>
 
                       <button class="card__repeat-toggle" type="button">
-                        repeat:<span class="card__repeat-status">yes</span>
+                        repeat:<span class="card__repeat-status">${isRepeating ? `yes` : `no`}</span>
                       </button>
 
                       <fieldset class="card__repeat-days">
@@ -163,50 +187,7 @@ ${task.title}</textarea
 
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                        <span class="card__hashtag-inner">
-                          <input
-                            type="hidden"
-                            name="hashtag"
-                            value="repeat"
-                            class="card__hashtag-hidden-input"
-                          />
-                          <button type="button" class="card__hashtag-name">
-                            #repeat
-                          </button>
-                          <button type="button" class="card__hashtag-delete">
-                            delete
-                          </button>
-                        </span>
-
-                        <span class="card__hashtag-inner">
-                          <input
-                            type="hidden"
-                            name="hashtag"
-                            value="repeat"
-                            class="card__hashtag-hidden-input"
-                          />
-                          <button type="button" class="card__hashtag-name">
-                            #cinema
-                          </button>
-                          <button type="button" class="card__hashtag-delete">
-                            delete
-                          </button>
-                        </span>
-
-                        <span class="card__hashtag-inner">
-                          <input
-                            type="hidden"
-                            name="hashtag"
-                            value="repeat"
-                            class="card__hashtag-hidden-input"
-                          />
-                          <button type="button" class="card__hashtag-name">
-                            #entertaiment
-                          </button>
-                          <button type="button" class="card__hashtag-delete">
-                            delete
-                          </button>
-                        </span>
+                        ${tagsOfTask}
                       </div>
 
                       <label>
