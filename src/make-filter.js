@@ -8,12 +8,12 @@ export default (name, count, checked = true) => {
     id="filter__${nameLow}"
     class="filter__input visually-hidden"
     name="filter"
-    ${checked}
+    ${(checked) && (count > 0) ? `checked` : ``}
     ${(count === 0) ? `disabled` : ``}
   />
   <label for="filter__${nameLow}" class="filter__label">
     ${name} <span class="filter__${nameLow}-count">${count}</span></label
   >`;
 
-  mainFilter.insertAdjacentHTML(`beforeend`, templateFilterText);
+  mainFilter.insertAdjacentHTML(`afterbegin`, templateFilterText);
 };

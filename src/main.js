@@ -2,7 +2,7 @@ import makeFilter from './make-filter.js';
 import makeTask from './make-task.js';
 import generateData from './data.js';
 
-const FILTERS = [`ALL`, `OVERDUE`, `TODAY`, `FAVORITES`, `REPEATING`, `TAGS`, `ARCHIVE`];
+const FILTERS = [`ARCHIVE`, `TAGS`, `REPEATING`, `FAVORITES`, `TODAY`, `OVERDUE`, `ALL`];
 const START_QUANTITY_TASKS = 7;
 const MAX_TASKS = 10;
 
@@ -30,12 +30,13 @@ const createFilters = () => {
 };
 
 const createTasks = (number) => {
+  arrayTasks = [];
   for (let i = 0; i < number; i++) {
     arrayTasks.push(generateData());
   }
 
   for (const element of arrayTasks) {
-    makeTask(generateData(element));
+    makeTask(element);
   }
 };
 

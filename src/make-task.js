@@ -3,18 +3,13 @@ const boardTasks = document.querySelector(`.board__tasks`);
 export default (task) => {
 
   const monthOfTask = task.dueDate.toLocaleString(`en-us`, {month: `long`});
-  const dateOfTask = `${task.dueDate.getDate()} ${monthOfTask} ${task.dueDate.getFullYear()}`;
+  const dateOfTask = `${task.dueDate.getDate()} ${monthOfTask}`;
   const timeOfTask = task.dueDate.toLocaleString(`en-US`, {hour12: true, hour: `2-digit`, minute: `2-digit`});
-
-  // console.log(dateOfTask);
-  // console.log(task.dueDate.toLocaleTimeString('en-US'));
-  // console.log(task.dueDate.getDate() + " " + monthOfTask + " " + task.dueDate.getFullYear() + " " + task.dueDate);
 
   const obj = task.repeatingDays;
   const isRepeating = Object.keys(obj).some((key)=>obj[key]);
 
   let tagsOfTask = ``;
-
   for (const element of task.tags) {
     tagsOfTask +=
       `<span class="card__hashtag-inner">
@@ -34,7 +29,7 @@ export default (task) => {
   }
 
 
-  const templateCardText = `<article class="card card--edit card--${task.color} ${isRepeating ? `card--repeat` : ``}">
+  const templateCardText = `<article class="card card--${task.color} ${isRepeating ? `card--repeat` : ``}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -84,7 +79,7 @@ ${task.title}</textarea
                             type="text"
                             placeholder="23 September"
                             name="date"
-                            value=${dateOfTask}
+                            value="${dateOfTask}"
                           />
                         </label>
                         <label class="card__input-deadline-wrap">
@@ -93,7 +88,7 @@ ${task.title}</textarea
                             type="text"
                             placeholder="11:15 PM"
                             name="time"
-                            value=${timeOfTask}
+                            value="${timeOfTask}"
                           />
                         </label>
                       </fieldset>
