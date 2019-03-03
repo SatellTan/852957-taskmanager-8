@@ -9,10 +9,18 @@ const MAX_TASKS = 10;
 const boardTasks = document.querySelector(`.board__tasks`);
 let arrayTasks = [];
 
+const createArrayTasks = (number) => {
+  arrayTasks = [];
+  for (let i = 0; i < number; i++) {
+    arrayTasks.push(generateData());
+  }
+};
+
 const onFilterClick = (evt) => {
   boardTasks.innerHTML = ``;
   const filterCountOfTasks = document.querySelector(`.${evt.currentTarget.id}-count`).textContent;
-  createTasks(filterCountOfTasks);
+  createArrayTasks(filterCountOfTasks);
+  createTasks(arrayTasks);
 };
 
 const addHandlerOnFilters = () => {
@@ -29,17 +37,13 @@ const createFilters = () => {
   }
 };
 
-const createTasks = (number) => {
-  arrayTasks = [];
-  for (let i = 0; i < number; i++) {
-    arrayTasks.push(generateData());
-  }
-
-  for (const element of arrayTasks) {
+const createTasks = (tasks) => {
+  for (const element of tasks) {
     makeTask(element);
   }
 };
 
 createFilters();
-createTasks(START_QUANTITY_TASKS);
+createArrayTasks(START_QUANTITY_TASKS);
+createTasks(arrayTasks);
 addHandlerOnFilters();

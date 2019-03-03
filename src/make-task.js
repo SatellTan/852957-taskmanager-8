@@ -1,3 +1,5 @@
+import {ALL_COLORS} from './data.js';
+
 const boardTasks = document.querySelector(`.board__tasks`);
 
 export default (task) => {
@@ -9,9 +11,9 @@ export default (task) => {
   const obj = task.repeatingDays;
   const isRepeating = Object.keys(obj).some((key)=>obj[key]);
 
-  let tagsOfTask = ``;
+  let tagsBlock = ``;
   for (const element of task.tags) {
-    tagsOfTask +=
+    tagsBlock +=
       `<span class="card__hashtag-inner">
         <input
           type="hidden"
@@ -26,6 +28,42 @@ export default (task) => {
           delete
         </button>
       </span>`;
+  }
+
+  let colorsBlock = ``;
+  for (const element of ALL_COLORS) {
+    colorsBlock +=
+    `<input
+      type="radio"
+      id="color-${element}-4"
+      class="card__color-input card__color-input--${element} visually-hidden"
+      name="color"
+      value="${element}"
+      ${task.color === element ? `checked` : ``}
+    />
+    <label
+      for="color-${element}-4"
+      class="card__color card__color--${element}"
+      >${element}</label
+    >`;
+  }
+
+  let repeatDaysBlock = ``;
+  for (const key in task.repeatingDays) {
+    if (task.repeatingDays.hasOwnProperty(key)) {
+      repeatDaysBlock +=
+      `<input
+        class="visually-hidden card__repeat-day-input"
+        type="checkbox"
+        id="repeat-${key}-4"
+        name="repeat"
+        value="${key}"
+        ${task.repeatingDays[key] ? `checked` : ``}
+      />
+      <label class="card__repeat-day" for="repeat-${key}-4"
+        >${key}</label
+      >`;
+    }
   }
 
 
@@ -99,90 +137,14 @@ ${task.title}</textarea
 
                       <fieldset class="card__repeat-days">
                         <div class="card__repeat-days-inner">
-                          <input
-                            class="visually-hidden card__repeat-day-input"
-                            type="checkbox"
-                            id="repeat-mo-4"
-                            name="repeat"
-                            value="mo"
-                            ${task.repeatingDays.mo ? `checked` : ``}
-                          />
-                          <label class="card__repeat-day" for="repeat-mo-4"
-                            >mo</label
-                          >
-                          <input
-                            class="visually-hidden card__repeat-day-input"
-                            type="checkbox"
-                            id="repeat-tu-4"
-                            name="repeat"
-                            value="tu"
-                            ${task.repeatingDays.tu ? `checked` : ``}
-                          />
-                          <label class="card__repeat-day" for="repeat-tu-4"
-                            >tu</label
-                          >
-                          <input
-                            class="visually-hidden card__repeat-day-input"
-                            type="checkbox"
-                            id="repeat-we-4"
-                            name="repeat"
-                            value="we"
-                            ${task.repeatingDays.we ? `checked` : ``}
-                          />
-                          <label class="card__repeat-day" for="repeat-we-4"
-                            >we</label
-                          >
-                          <input
-                            class="visually-hidden card__repeat-day-input"
-                            type="checkbox"
-                            id="repeat-th-4"
-                            name="repeat"
-                            value="th"
-                            ${task.repeatingDays.th ? `checked` : ``}
-                          />
-                          <label class="card__repeat-day" for="repeat-th-4"
-                            >th</label
-                          >
-                          <input
-                            class="visually-hidden card__repeat-day-input"
-                            type="checkbox"
-                            id="repeat-fr-4"
-                            name="repeat"
-                            value="fr"
-                            ${task.repeatingDays.fr ? `checked` : ``}
-                          />
-                          <label class="card__repeat-day" for="repeat-fr-4"
-                            >fr</label
-                          >
-                          <input
-                            class="visually-hidden card__repeat-day-input"
-                            type="checkbox"
-                            name="repeat"
-                            value="sa"
-                            id="repeat-sa-4"
-                            ${task.repeatingDays.sa ? `checked` : ``}
-                          />
-                          <label class="card__repeat-day" for="repeat-sa-4"
-                            >sa</label
-                          >
-                          <input
-                            class="visually-hidden card__repeat-day-input"
-                            type="checkbox"
-                            id="repeat-su-4"
-                            name="repeat"
-                            value="su"
-                            ${task.repeatingDays.su ? `checked` : ``}
-                          />
-                          <label class="card__repeat-day" for="repeat-su-4"
-                            >su</label
-                          >
+                          ${repeatDaysBlock}
                         </div>
                       </fieldset>
                     </div>
 
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                        ${tagsOfTask}
+                        ${tagsBlock}
                       </div>
 
                       <label>
@@ -212,71 +174,7 @@ ${task.title}</textarea
                   <div class="card__colors-inner">
                     <h3 class="card__colors-title">Color</h3>
                     <div class="card__colors-wrap">
-                      <input
-                        type="radio"
-                        id="color-black-4"
-                        class="card__color-input card__color-input--black visually-hidden"
-                        name="color"
-                        value="black"
-                        ${task.color === `black` ? `checked` : ``}
-                      />
-                      <label
-                        for="color-black-4"
-                        class="card__color card__color--black"
-                        >black</label
-                      >
-                      <input
-                        type="radio"
-                        id="color-yellow-4"
-                        class="card__color-input card__color-input--yellow visually-hidden"
-                        name="color"
-                        value="yellow"
-                        ${task.color === `yellow` ? `checked` : ``}
-                      />
-                      <label
-                        for="color-yellow-4"
-                        class="card__color card__color--yellow"
-                        >yellow</label
-                      >
-                      <input
-                        type="radio"
-                        id="color-blue-4"
-                        class="card__color-input card__color-input--blue visually-hidden"
-                        name="color"
-                        value="blue"
-                        ${task.color === `blue` ? `checked` : ``}
-                      />
-                      <label
-                        for="color-blue-4"
-                        class="card__color card__color--blue"
-                        >blue</label
-                      >
-                      <input
-                        type="radio"
-                        id="color-green-4"
-                        class="card__color-input card__color-input--green visually-hidden"
-                        name="color"
-                        value="green"
-                        ${task.color === `green` ? `checked` : ``}
-                      />
-                      <label
-                        for="color-green-4"
-                        class="card__color card__color--green"
-                        >green</label
-                      >
-                      <input
-                        type="radio"
-                        id="color-pink-4"
-                        class="card__color-input card__color-input--pink visually-hidden"
-                        name="color"
-                        value="pink"
-                        ${task.color === `pink` ? `checked` : ``}
-                      />
-                      <label
-                        for="color-pink-4"
-                        class="card__color card__color--pink"
-                        >pink</label
-                      >
+                      ${colorsBlock}
                     </div>
                   </div>
                 </div>
