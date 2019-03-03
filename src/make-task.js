@@ -49,21 +49,19 @@ export default (task) => {
   }
 
   let repeatDaysBlock = ``;
-  for (const key in task.repeatingDays) {
-    if (task.repeatingDays.hasOwnProperty(key)) {
-      repeatDaysBlock +=
-      `<input
-        class="visually-hidden card__repeat-day-input"
-        type="checkbox"
-        id="repeat-${key}-4"
-        name="repeat"
-        value="${key}"
-        ${task.repeatingDays[key] ? `checked` : ``}
-      />
-      <label class="card__repeat-day" for="repeat-${key}-4"
-        >${key}</label
-      >`;
-    }
+  for (const key of Object.keys(task.repeatingDays)) {
+    repeatDaysBlock +=
+    `<input
+      class="visually-hidden card__repeat-day-input"
+      type="checkbox"
+      id="repeat-${key}-4"
+      name="repeat"
+      value="${key}"
+      ${task.repeatingDays[key] ? `checked` : ``}
+    />
+    <label class="card__repeat-day" for="repeat-${key}-4"
+      >${key}</label
+    >`;
   }
 
 
