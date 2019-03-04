@@ -1,4 +1,4 @@
-import {ALL_COLORS} from './data.js';
+import {ALL_COLORS, WEEK_DAYS} from './data';
 
 const boardTasks = document.querySelector(`.board__tasks`);
 
@@ -49,18 +49,18 @@ export default (task) => {
   }
 
   let repeatDaysBlock = ``;
-  for (const key of Object.keys(task.repeatingDays)) {
+  for (const element of WEEK_DAYS) {
     repeatDaysBlock +=
     `<input
       class="visually-hidden card__repeat-day-input"
       type="checkbox"
-      id="repeat-${key}-4"
+      id="repeat-${element}-4"
       name="repeat"
-      value="${key}"
-      ${task.repeatingDays[key] ? `checked` : ``}
+      value="${element}"
+      ${task.repeatingDays[element] ? `checked` : ``}
     />
-    <label class="card__repeat-day" for="repeat-${key}-4"
-      >${key}</label
+    <label class="card__repeat-day" for="repeat-${element}-4"
+      >${element}</label
     >`;
   }
 

@@ -1,6 +1,6 @@
-import makeFilter from './make-filter.js';
-import makeTask from './make-task.js';
-import generateData from './data.js';
+import makeFilter from './make-filter';
+import makeTask from './make-task';
+import generateData from './data';
 
 const FILTERS = [`ARCHIVE`, `TAGS`, `REPEATING`, `FAVORITES`, `TODAY`, `OVERDUE`, `ALL`];
 const START_QUANTITY_TASKS = 7;

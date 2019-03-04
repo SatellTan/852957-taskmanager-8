@@ -25,7 +25,7 @@ export const ALL_COLORS = [
 
 const MAX_TAGS = 3;
 
-const WEEK_DAYS = [
+export const WEEK_DAYS = [
   `mo`,
   `tu`,
   `we`,
@@ -39,10 +39,12 @@ const generateRandomNumber = (maxNumber) => {
   return Math.floor(Math.random() * maxNumber);
 };
 
-const resultRepeatingDays = WEEK_DAYS.reduce((res, day)=>{
-  res[day] = generateRandomNumber(2);
-  return res;
-}, {});
+const generateRepeatingDays = () => {
+  return WEEK_DAYS.reduce((res, day)=>{
+    res[day] = generateRandomNumber(2);
+    return res;
+  }, {});
+};
 
 const createTags = (number) => {
   const tagsOfTask = new Set([]);
@@ -63,7 +65,7 @@ export default () => {
     tags: createTags(generateRandomNumber(MAX_TAGS)),
     picture: `http://picsum.photos/100/100?r=${Math.random()}`,
     color: ALL_COLORS[generateRandomNumber(ALL_COLORS.length)], // Строка, описывающая цвет карточки. Один вариант из набора black, yellow, blue, green, pink
-    repeatingDays: resultRepeatingDays,
+    repeatingDays: generateRepeatingDays(),
     isFavorite: (generateRandomNumber(2) === 0), // Булево значение сообщающее, добавлена ли задача в избранное.
     isDone: (generateRandomNumber(2) === 0), // Булево значение сообщающее, выполнена ли задача.
   };
