@@ -66,8 +66,10 @@ export default () => {
     picture: `http://picsum.photos/100/100?r=${Math.random()}`,
     color: ALL_COLORS[generateRandomNumber(ALL_COLORS.length)], // Строка, описывающая цвет карточки. Один вариант из набора black, yellow, blue, green, pink
     repeatingDays: generateRepeatingDays(),
-    isFavorite: (generateRandomNumber(2) === 0), // Булево значение сообщающее, добавлена ли задача в избранное.
-    isDone: (generateRandomNumber(2) === 0), // Булево значение сообщающее, выполнена ли задача.
+    state: { // Состояние компонента
+      isFavorite: (generateRandomNumber(2) === 0),
+      isDone: (generateRandomNumber(2) === 0),
+    },
   };
 
   return task;
