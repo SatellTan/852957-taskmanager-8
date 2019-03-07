@@ -1,72 +1,50 @@
-import makeFilter from './make-filter';
-// import makeTask from './make-task';
-import generateData from './data';
+import generateDataTask from './data-task';
+import generateDataFilter from './data-filter';
 import Task from './task';
 import TaskEdit from './task-edit';
+import Filter from './filter';
 
 const FILTERS = [`ARCHIVE`, `TAGS`, `REPEATING`, `FAVORITES`, `TODAY`, `OVERDUE`, `ALL`];
 const START_QUANTITY_TASKS = 7;
-const MAX_TASKS = 10;
 
 const tasksContainer = document.querySelector(`.board__tasks`);
-let arrayTasks = [];
-
-const onFilterClick = (evt) => {
-  tasksContainer.innerHTML = ``;
-  const filterCountOfTasks = document.querySelector(`.${evt.currentTarget.id}-count`).textContent;
-  //createArrayTasks(filterCountOfTasks);
-  //createTasks(arrayTasks);
-};
-
-const addHandlerOnFilters = () => {
-  const filterElements = document.querySelectorAll(`.filter__input`);
-  for (const element of filterElements) {
-    element.addEventListener(`click`, onFilterClick);
-  }
-};
+const filtersContainer = document.querySelector(`.main__filter`);
 
 const createFilters = () => {
   for (const element of FILTERS) {
-    let filterCount = Math.floor(Math.random() * (MAX_TASKS + 1));
-    makeFilter(element, filterCount, true);
+    const data = generateDataFilter(element);
+    const filterElement = new Filter(data);
+    filterElement.render(filtersContainer);
   }
 };
 
-/*
-const createTasks = (tasks) => {
-  for (const element of tasks) {
-    makeTask(element);
-  }
-};*/
+const createTask = () => {
+  const data = generateDataTask();
+  const taskComponent = new Task(data);
+  const editTaskComponent = new TaskEdit(data);
 
-/*
-const createArrayTasks = (number) => {
-  arrayTasks = [];
+  taskComponent.render(tasksContainer);
+
+  taskComponent.onEdit = () => {
+    editTaskComponent.render(tasksContainer);
+    tasksContainer.replaceChild(editTaskComponent.element, taskComponent.element);
+    taskComponent.unrender();
+  };
+
+  editTaskComponent.onSubmit = () => {
+    taskComponent.render(tasksContainer);
+    tasksContainer.replaceChild(taskComponent.element, editTaskComponent.element);
+    editTaskComponent.unrender();
+  };
+};
+
+
+export const createTasks = (number) => {
+  tasksContainer.innerHTML = ``;
   for (let i = 0; i < number; i++) {
-    arrayTasks.push(generateData());
+    createTask();
   }
-};*/
+};
 
 createFilters();
-addHandlerOnFilters();
-//createArrayTasks(START_QUANTITY_TASKS);
-//createTasks(arrayTasks);
-
-
-const data = generateData();
-const taskComponent = new Task(data);
-const editTaskComponent = new TaskEdit(data);
-
-tasksContainer.appendChild(taskComponent.render());
-
-taskComponent.onEdit = () => {
-  editTaskComponent.render();
-  tasksContainer.replaceChild(editTaskComponent.element, taskComponent.element);
-  taskComponent.unrender();
-};
-
-editTaskComponent.onSubmit = () => {
-  taskComponent.render();
-  tasksContainer.replaceChild(taskComponent.element, editTaskComponent.element);
-  editTaskComponent.unrender();
-};
+createTasks(START_QUANTITY_TASKS);

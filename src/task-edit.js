@@ -1,8 +1,9 @@
-import {ALL_COLORS, WEEK_DAYS} from './data';
-import createElement from './create-element';
+import {ALL_COLORS, WEEK_DAYS} from './data-task';
+import Component from './component';
 
-export default class TaskEdit {
+export default class TaskEdit extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._tags = data.tags;
@@ -11,17 +12,16 @@ export default class TaskEdit {
     this._repeatingDays = data.repeatingDays;
 
     this._element = null;
-    this._state = { // Состояние компонента
-      isFavorite: data.isFavorite,
-      isDone: data.isDone,
-    };
+    this._state = Object.assign({}, data.state);
     this._onSubmit = null;
-    this._listener = null;
+    this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
   }
 
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
-    typeof this._onSubmit === `function` && this._onSubmit();
+    if (typeof this._onSubmit === `function`) {
+      this._onSubmit();
+    }
   }
 
   _isRepeated() {
@@ -124,7 +124,7 @@ export default class TaskEdit {
 
               <div class="card__hashtag">
                 <div class="card__hashtag-list">
-                  ${(Array.from(this._tags).map(tag => (`
+                  ${(Array.from(this._tags).map((tag) => (`
                   <span class="card__hashtag-inner">
                       <input type="hidden" name="hashtag" value="${tag}" class="card__hashtag-hidden-input"/>
                       <button type="button" class="card__hashtag-name">#${tag}</button>
@@ -161,25 +161,12 @@ export default class TaskEdit {
     </article>`.trim();
   }
 
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
-  }
-
   bind() {
-    this._listener = this._onSubmitButtonClick.bind(this);
-    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._listener);
+    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick);
   }
 
   unbind() {
-    // Удаление обработчиков
-    this._element.querySelector(`.card__form`).removeEventListener(`submit`, this._listener);
-    this._listener = null;
+    this._element.querySelector(`.card__form`).removeEventListener(`submit`, this._onSubmitButtonClick);
+    this._onSubmitButtonClick = null;
   }
 }

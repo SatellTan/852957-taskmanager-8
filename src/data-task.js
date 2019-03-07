@@ -64,7 +64,7 @@ export default () => {
     dueDate: new Date(Date.now() + 1 + (generateRandomNumber(14) - 7) * 24 * 60 * 60 * 1000),
     tags: createTags(generateRandomNumber(MAX_TAGS)),
     picture: `http://picsum.photos/100/100?r=${Math.random()}`,
-    color: ALL_COLORS[generateRandomNumber(ALL_COLORS.length)], // Строка, описывающая цвет карточки. Один вариант из набора black, yellow, blue, green, pink
+    color: ALL_COLORS[generateRandomNumber(ALL_COLORS.length)],
     repeatingDays: generateRepeatingDays(),
     state: { // Состояние компонента
       isFavorite: (generateRandomNumber(2) === 0),

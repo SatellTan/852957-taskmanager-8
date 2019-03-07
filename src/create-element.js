@@ -1,5 +1,7 @@
-export default (template) => {
+export default (template, container) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
-  return newElement.firstChild;
+  container.insertAdjacentHTML(`afterbegin`, template);
+
+  return container.firstChild;
 };

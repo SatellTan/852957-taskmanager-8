@@ -1,7 +1,8 @@
-import createElement from './create-element';
+import Component from './component';
 
-export default class Task {
+export default class Task extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._tags = data.tags;
@@ -10,7 +11,7 @@ export default class Task {
     this._repeatingDays = data.repeatingDays;
 
     this._element = null;
-    this._state = {...data.state};
+    this._state = Object.assign({}, data.state);
 
     this._onEdit = null;
     this._listener = null;
@@ -20,9 +21,11 @@ export default class Task {
     return Object.keys(this._repeatingDays).some((key)=>this._repeatingDays[key]);
   }
 
-  _onEditButtonClick() {
+  _onEditButtonClick(evt) {
     evt.preventDefault();
-    typeof this._onEdit === `function` && this._onEdit();
+    if (typeof this._onEdit === `function`) {
+      this._onEdit();
+    }
   }
 
   get element() {
@@ -73,13 +76,12 @@ export default class Task {
 
             <div class="card__hashtag">
               <div class="card__hashtag-list">
-                ${(Array.from(this._tags).map(tag => (`
+                ${(Array.from(this._tags).map((tag) => (`
                   <span class="card__hashtag-inner">
                     <input type="hidden" name="hashtag" value="${tag}" class="card__hashtag-hidden-input" />
                     <button type="button" class="card__hashtag-name">#${tag}</button>
                     <button type="button" class="card__hashtag-delete">delete</button>
-                  </span>`.trim()
-                ))).join('')}
+                  </span>`.trim()))).join(``)}
               </div>
 
               <label>
@@ -102,20 +104,8 @@ export default class Task {
     this._element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._listener);
   }
 
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
   unbind() {
-    // Удаление обработчиков
-    this._element.querySelector(`.card__btn--edit`).removeEventListener('click', this._listener);
+    this._element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._listener);
     this._listener = null;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
   }
 }
