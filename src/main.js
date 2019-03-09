@@ -10,18 +10,30 @@ const START_QUANTITY_TASKS = 7;
 const tasksContainer = document.querySelector(`.board__tasks`);
 const filtersContainer = document.querySelector(`.main__filter`);
 
+const createFilter = (name) => {
+  const data = generateDataFilter(name);
+  if (name === `ALL`) {
+    data.count = START_QUANTITY_TASKS;
+    data.checked = true;
+  }
+  const filterElement = new Filter(data);
+  filterElement.render(filtersContainer);
+
+  filterElement.onClick = () => {
+    createTasks(filterElement._count);
+  };
+};
+
 const createFilters = () => {
   for (const element of FILTERS) {
-    const data = generateDataFilter(element);
-    const filterElement = new Filter(data);
-    filterElement.render(filtersContainer);
+    createFilter(element);
   }
 };
 
-const createTask = () => {
+const createTask = (number) => {
   const data = generateDataTask();
   const taskComponent = new Task(data);
-  const editTaskComponent = new TaskEdit(data);
+  const editTaskComponent = new TaskEdit(data, number);
 
   taskComponent.render(tasksContainer);
 
@@ -39,10 +51,10 @@ const createTask = () => {
 };
 
 
-export const createTasks = (number) => {
+const createTasks = (number) => {
   tasksContainer.innerHTML = ``;
   for (let i = 0; i < number; i++) {
-    createTask();
+    createTask(i);
   }
 };
 

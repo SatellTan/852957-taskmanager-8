@@ -4,6 +4,6 @@ export default (name) => {
   return {
     name,
     count: Math.floor(Math.random() * (MAX_TASKS)),
-    checked: true,
+    checked: false,
   };
 };

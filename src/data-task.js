@@ -41,7 +41,7 @@ const generateRandomNumber = (maxNumber) => {
 
 const generateRepeatingDays = () => {
   return WEEK_DAYS.reduce((res, day)=>{
-    res[day] = generateRandomNumber(2);
+    res[day] = (generateRandomNumber(2) === 0);
     return res;
   }, {});
 };

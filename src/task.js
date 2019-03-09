@@ -45,8 +45,8 @@ export default class Task extends Component {
       <div class="card__inner">
         <div class="card__control">
           <button type="button" class="card__btn card__btn--edit">edit</button>
-          <button type="button" class="card__btn card__btn--archive">${this._state.isDone ? `archive` : ``}</button>
-          <button type="button" class="card__btn card__btn--favorites card__btn--disabled">${this._state.isFavorite ? `favorites` : ``}</button>
+          ${this._state.isDone ? `<button type="button" class="card__btn card__btn--archive">archive</button>` : ``}
+          ${this._state.isFavorite ? `` : `<button type="button" class="card__btn card__btn--favorites card__btn--disabled">favorites</button>`}
         </div>
 
         <div class="card__color-bar">

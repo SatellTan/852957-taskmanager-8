@@ -2,7 +2,7 @@ import {ALL_COLORS, WEEK_DAYS} from './data-task';
 import Component from './component';
 
 export default class TaskEdit extends Component {
-  constructor(data) {
+  constructor(data, number) {
     super();
     this._title = data.title;
     this._dueDate = data.dueDate;
@@ -10,6 +10,7 @@ export default class TaskEdit extends Component {
     this._picture = data.picture;
     this._color = data.color;
     this._repeatingDays = data.repeatingDays;
+    this._number = number;
 
     this._element = null;
     this._state = Object.assign({}, data.state);
@@ -48,12 +49,12 @@ export default class TaskEdit extends Component {
       `<input
         class="visually-hidden card__repeat-day-input"
         type="checkbox"
-        id="repeat-${element}-4"
+        id="repeat-${element}-${this._number}"
         name="repeat"
         value="${element}"
         ${this._repeatingDays[element] ? `checked` : ``}
       />
-      <label class="card__repeat-day" for="repeat-${element}-4"
+      <label class="card__repeat-day" for="repeat-${element}-${this._number}"
         >${element}</label
       >`;
     }
@@ -63,14 +64,14 @@ export default class TaskEdit extends Component {
       colorsBlock +=
       `<input
         type="radio"
-        id="color-${element}-4"
+        id="color-${element}-${this._number}"
         class="card__color-input card__color-input--${element} visually-hidden"
         name="color"
         value="${element}"
         ${this._color === element ? `checked` : ``}
       />
       <label
-        for="color-${element}-4"
+        for="color-${element}-${this._number}"
         class="card__color card__color--${element}"
         >${element}</label
       >`;
@@ -81,8 +82,8 @@ export default class TaskEdit extends Component {
         <div class="card__inner">
           <div class="card__control">
             <button type="button" class="card__btn card__btn--edit">edit</button>
-            <button type="button" class="card__btn card__btn--archive">${this._state.isDone ? `archive` : ``}</button>
-            <button type="button" class="card__btn card__btn--favorites card__btn--disabled">${this._state.isFavorite ? `favorites` : ``}</button>
+            ${this._state.isDone ? `<button type="button" class="card__btn card__btn--archive">archive</button>` : ``}
+            ${this._state.isFavorite ? `` : `<button type="button" class="card__btn card__btn--favorites card__btn--disabled">favorites</button>`}
           </div>
 
           <div class="card__color-bar">

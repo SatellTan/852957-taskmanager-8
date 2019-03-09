@@ -1,5 +1,4 @@
 import Component from './component';
-import {createTasks} from './main';
 
 export default class Filter extends Component {
   constructor(data) {
@@ -7,6 +6,7 @@ export default class Filter extends Component {
     this._name = data.name;
     this._count = data.count;
     this._checked = data.checked;
+    this._onClick = null;
     this._listener = null;
   }
 
@@ -14,9 +14,14 @@ export default class Filter extends Component {
     return this._element;
   }
 
-  _onFilterClick(evt) {
-    evt.preventDefault();
-    createTasks(this._count);
+  _onFilterClick() {
+    if (typeof this._onClick === `function`) {
+      this._onClick();
+    }
+  }
+
+  set onClick(fn) {
+    this._onClick = fn;
   }
 
   get template() {
@@ -30,7 +35,7 @@ export default class Filter extends Component {
       ${(this._count === 0) ? `disabled` : ``}
     />
     <label for="filter__${this._name.toLowerCase()}" class="filter__label">
-      ${this._name} <span class="filter__${this._name.toLowerCase()}-count">${this._count}</span></label
+      ${this._name.trim()} <span class="filter__${this._name.toLowerCase()}-count">${this._count}</span></label
     >`.trim();
 
   }
