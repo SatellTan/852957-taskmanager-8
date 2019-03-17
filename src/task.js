@@ -1,3 +1,4 @@
+import moment from 'moment';
 import Component from './component';
 
 export default class Task extends Component {
@@ -9,10 +10,9 @@ export default class Task extends Component {
     this._picture = data.picture;
     this._color = data.color;
     this._repeatingDays = data.repeatingDays;
-
+    this._isFavorite = data.isFavorite;
+    this._isDone = data.isDone;
     this._element = null;
-    this._state = Object.assign({}, data.state);
-
     this._onEdit = null;
     this._listener = null;
   }
@@ -37,16 +37,12 @@ export default class Task extends Component {
   }
 
   get template() {
-    const monthOfTask = this._dueDate.toLocaleString(`en-us`, {month: `long`});
-    const dateOfTask = `${this._dueDate.getDate()} ${monthOfTask}`;
-    const timeOfTask = this._dueDate.toLocaleString(`en-US`, {hour12: true, hour: `2-digit`, minute: `2-digit`});
-
     return `<article class="card card--${this._color} ${this._isRepeated() ? `card--repeat` : ``}">
       <div class="card__inner">
         <div class="card__control">
           <button type="button" class="card__btn card__btn--edit">edit</button>
-          ${this._state.isDone ? `<button type="button" class="card__btn card__btn--archive">archive</button>` : ``}
-          ${this._state.isFavorite ? `` : `<button type="button" class="card__btn card__btn--favorites card__btn--disabled">favorites</button>`}
+          ${this._isDone ? `<button type="button" class="card__btn card__btn--archive">archive</button>` : ``}
+          ${this._isFavorite ? `` : `<button type="button" class="card__btn card__btn--favorites card__btn--disabled">favorites</button>`}
         </div>
 
         <div class="card__color-bar">
@@ -66,10 +62,10 @@ export default class Task extends Component {
             <div class="card__dates">
               <fieldset class="card__date-deadline">
                 <label class="card__input-deadline-wrap">
-                  <input class="card__date" type="text" placeholder="23 September" name="date" value="${dateOfTask}"/>
+                  <input class="card__date" type="text" placeholder="23 September" name="date" value="${moment(this._dueDate).format(`D MMMM`)}"/>
                 </label>
                 <label class="card__input-deadline-wrap">
-                  <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${timeOfTask}"/>
+                  <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${moment(this._dueDate).format(`h:mm a`)}"/>
                 </label>
               </fieldset>
             </div>
@@ -106,6 +102,13 @@ export default class Task extends Component {
 
   unbind() {
     this._element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._listener);
-    this._listener = null;
+  }
+
+  update(data) {
+    this._title = data.title;
+    this._dueDate = data.dueDate;
+    this._tags = data.tags;
+    this._color = data.color;
+    this._repeatingDays = data.repeatingDays;
   }
 }

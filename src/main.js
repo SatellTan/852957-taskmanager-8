@@ -32,21 +32,28 @@ const createFilters = () => {
 
 const createTask = (number) => {
   const data = generateDataTask();
-  const taskComponent = new Task(data);
-  const editTaskComponent = new TaskEdit(data, number);
+  const task = new Task(data);
+  const editTask = new TaskEdit(data, number);
 
-  taskComponent.render(tasksContainer);
+  task.render(tasksContainer);
 
-  taskComponent.onEdit = () => {
-    editTaskComponent.render(tasksContainer);
-    tasksContainer.replaceChild(editTaskComponent.element, taskComponent.element);
-    taskComponent.unrender();
+  task.onEdit = () => {
+    editTask.render(tasksContainer);
+    tasksContainer.replaceChild(editTask.element, task.element);
+    task.unrender();
   };
 
-  editTaskComponent.onSubmit = () => {
-    taskComponent.render(tasksContainer);
-    tasksContainer.replaceChild(taskComponent.element, editTaskComponent.element);
-    editTaskComponent.unrender();
+  editTask.onSubmit = (newData) => {
+    data.title = newData.title;
+    data.tags = newData.tags;
+    data.color = newData.color;
+    data.repeatingDays = newData.repeatingDays;
+    data.dueDate = newData.dueDate;
+
+    task.update(data);
+    task.render(tasksContainer);
+    tasksContainer.replaceChild(task.element, editTask.element);
+    editTask.unrender();
   };
 };
 
