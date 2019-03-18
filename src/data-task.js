@@ -59,19 +59,26 @@ const createTags = (number) => {
 };
 
 export default () => {
-  const createData = new Date(Date.now() + 1 + (generateRandomNumber(14) - 7) * 24 * 60 * 60 * 1000);
+  const createdData = new Date(Date.now() + 1 + (generateRandomNumber(14) - 7) * 24 * 60 * 60 * 1000);
+  const createdRepeatingDays = generateRepeatingDays();
   const task = {
     title: ALL_TITLES[generateRandomNumber(ALL_TITLES.length)],
-    dueDate: createData,
+    dueDate: createdData,
     tags: createTags(generateRandomNumber(MAX_TAGS)),
     picture: `http://picsum.photos/100/100?r=${Math.random()}`,
     color: ALL_COLORS[generateRandomNumber(ALL_COLORS.length)],
-    repeatingDays: generateRepeatingDays(),
+    repeatingDays: createdRepeatingDays,
     isFavorite: (generateRandomNumber(2) === 0),
     isDone: (generateRandomNumber(2) === 0),
     state: {
       isDate: () => {
-        if (createData) {
+        if (createdData) {
+          return true;
+        }
+        return false;
+      },
+      isRepeated: () => {
+        if (createdRepeatingDays) {
           return true;
         }
         return false;

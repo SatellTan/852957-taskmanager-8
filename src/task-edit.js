@@ -22,7 +22,7 @@ export default class TaskEdit extends Component {
     this._state.isDate = data.state.isDate;
     this._onChangeDate = this._onChangeDate.bind(this);
 
-    this._state.isRepeated = false;
+    this._state.isRepeated = data.state.isRepeated;
     this._onChangeRepeated = this._onChangeRepeated.bind(this);
   }
 
@@ -221,8 +221,8 @@ export default class TaskEdit extends Component {
     this._element.querySelector(`.card__date-deadline-toggle`).addEventListener(`click`, this._onChangeDate);
     this._element.querySelector(`.card__repeat-toggle`).addEventListener(`click`, this._onChangeRepeated);
     if (this._state.isDate) {
-      flatpickr(`.card__date`, {altInput: true, altFormat: `j F`, dateFormat: `j F`});
-      flatpickr(`.card__time`, {enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`});
+      flatpickr(this._element.querySelector(`.card__date`), {altInput: true, altFormat: `j F`, dateFormat: `j F`});
+      flatpickr(this._element.querySelector(`.card__time`), {enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`});
     }
   }
 
