@@ -24,6 +24,9 @@ export default class TaskEdit extends Component {
 
     this._state.isRepeated = data.state.isRepeated;
     this._onChangeRepeated = this._onChangeRepeated.bind(this);
+
+    this._flatpickrOnDate = null;
+    this._flatpickrOnTime = null;
   }
 
   _processForm(formData) {
@@ -221,8 +224,8 @@ export default class TaskEdit extends Component {
     this._element.querySelector(`.card__date-deadline-toggle`).addEventListener(`click`, this._onChangeDate);
     this._element.querySelector(`.card__repeat-toggle`).addEventListener(`click`, this._onChangeRepeated);
     if (this._state.isDate) {
-      flatpickr(this._element.querySelector(`.card__date`), {altInput: true, altFormat: `j F`, dateFormat: `j F`});
-      flatpickr(this._element.querySelector(`.card__time`), {enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`});
+      this._flatpickrOnDate = flatpickr(this._element.querySelector(`.card__date`), {altInput: true, altFormat: `j F`, dateFormat: `j F`});
+      this._flatpickrOnTime = flatpickr(this._element.querySelector(`.card__time`), {enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`});
     }
   }
 
@@ -230,6 +233,12 @@ export default class TaskEdit extends Component {
     this._element.querySelector(`.card__form`).removeEventListener(`submit`, this._onSubmitButtonClick);
     this._element.querySelector(`.card__date-deadline-toggle`).removeEventListener(`click`, this._onChangeDate);
     this._element.querySelector(`.card__repeat-toggle`).removeEventListener(`click`, this._onChangeRepeated);
+    if (this._flatpickrOnDate) {
+      this._flatpickrOnDate.destroy();
+    }
+    if (this._flatpickrOnTime) {
+      this._flatpickrOnTime.destroy();
+    }
   }
 
   update(data) {
@@ -243,9 +252,9 @@ export default class TaskEdit extends Component {
   static createMapper(target) {
     return {
       hashtag: (value) => target.tags.add(value),
-      text: (value) => target.title = value,
-      color: (value) => target.color = value,
-      repeat: (value) => target.repeatingDays[value] = true,
+      text: (value) => (target.title = value),
+      color: (value) => (target.color = value),
+      repeat: (value) => (target.repeatingDays[value] = true),
       // date: (value) => target.dueDate[value],
       date: (value) => (target.dueDate = moment(value, `DD MMMM`).toDate().getTime()),
       time: (value) => {
